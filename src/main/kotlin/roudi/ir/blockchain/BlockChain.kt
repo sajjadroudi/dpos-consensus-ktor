@@ -4,6 +4,9 @@ class BlockChain {
 
     private val blocks = mutableListOf<Block>(buildGenesisBlock())
 
+    val lastBlockIndex: Int
+        get() = blocks.lastIndex
+
     val lastBlock: Block
         get() = blocks.last()
 

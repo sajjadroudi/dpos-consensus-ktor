@@ -23,6 +23,9 @@ class Node(
     private val self: NodeInfo
         get() = nodes.find { it.address == selfAddress }!!
 
+    val lastBlockChainIndex: Int
+        get() = blockChain.lastBlockIndex
+
     private fun createNewBlock(): Block {
         val previousBlockHash = blockChain.lastBlock.hashCode()
         val block = Block(previousBlockHash, unverifiedTransactions)
@@ -59,11 +62,17 @@ class Node(
             .take(3)
     }
 
-    fun mine() {
-        if(isDelegate()) {
-            val block = createNewBlock()
-            blockChain.addBlock(block)
-        }
+    fun mine(): Block {
+        if(!isDelegate())
+            throw IllegalStateException("This node is not delegate!")
+
+        if(unverifiedTransactions.isEmpty())
+            throw IllegalStateException("There is no transaction to include in block!")
+
+        val block = createNewBlock()
+        blockChain.addBlock(block)
+
+        return block
     }
 
     private fun isDelegate(): Boolean {

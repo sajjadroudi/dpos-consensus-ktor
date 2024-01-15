@@ -1,5 +1,6 @@
 package roudi.ir.blockchain
 
+import roudi.ir.plugins.BlockResponse
 import roudi.ir.util.DateTimeUtil
 
 data class Block(
@@ -10,4 +11,12 @@ data class Block(
 
     val creationTime = DateTimeUtil.format(creationTimeAsTimestamp)
 
+}
+
+fun Block.toBlockResponse(index: Int): BlockResponse {
+    return BlockResponse(
+        index,
+        transactions.toTransactionResponse(),
+        previousBlockHash
+    )
 }
