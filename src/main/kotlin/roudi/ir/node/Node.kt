@@ -70,4 +70,14 @@ class Node(
         return delegates.find { it.address == selfAddress } != null
     }
 
+    // TEMPORARY METHODS TO DEBUG
+
+    fun getUnverifiedTransactions() : List<Transaction> {
+        return unverifiedTransactions
+    }
+
+    fun getNodes() : List<NodeInfo> {
+        return nodes.toList()
+    }
+
 }
