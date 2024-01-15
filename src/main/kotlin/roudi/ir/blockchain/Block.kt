@@ -4,8 +4,8 @@ import roudi.ir.util.DateTimeUtil
 
 data class Block(
     val transactions: List<Transaction>,
-    val creationTimeAsTimestamp: Long,
-    val previousBlockHash: Int
+    val previousBlockHash: Int,
+    val creationTimeAsTimestamp: Long = System.currentTimeMillis(),
 ) {
 
     val creationTime = DateTimeUtil.format(creationTimeAsTimestamp)
