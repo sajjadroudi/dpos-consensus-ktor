@@ -1,5 +1,7 @@
 package roudi.ir.blockchain
 
+import roudi.ir.plugins.BlockChainResponse
+
 class BlockChain {
 
     private val blocks = mutableListOf<Block>(buildGenesisBlock())
@@ -32,6 +34,10 @@ class BlockChain {
         }
 
         return true
+    }
+
+    fun toBlockChainResponse(): BlockChainResponse {
+        return BlockChainResponse(blocks.toBlockResponse(), blocks.size)
     }
 
 }

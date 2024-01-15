@@ -79,6 +79,10 @@ class Node(
         return delegates.find { it.address == selfAddress } != null
     }
 
+    fun getBlockChain() : BlockChain {
+        return blockChain
+    }
+
     // TEMPORARY METHODS TO DEBUG
 
     fun getUnverifiedTransactions() : List<Transaction> {

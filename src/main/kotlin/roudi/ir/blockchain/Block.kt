@@ -13,6 +13,12 @@ data class Block(
 
 }
 
+fun List<Block>.toBlockResponse(): List<BlockResponse> {
+    return mapIndexed { index, block ->
+        block.toBlockResponse(index)
+    }
+}
+
 fun Block.toBlockResponse(index: Int): BlockResponse {
     return BlockResponse(
         index,

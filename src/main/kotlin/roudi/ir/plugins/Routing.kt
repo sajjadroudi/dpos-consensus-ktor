@@ -32,5 +32,10 @@ fun Application.configureRouting(node: Node) {
             }
         }
 
+        get("/chain") {
+            val chain = node.getBlockChain().toBlockChainResponse()
+            call.respond(chain)
+        }
+
     }
 }
