@@ -13,7 +13,7 @@ class Node {
 
     private val nodes = mutableSetOf<NodeInfo>()
 
-    private val delegates = mutableSetOf<NodeInfo>()
+    private var delegates = listOf<NodeInfo>()
 
     fun createNewBlock() {
         val previousBlockHash = blockChain.lastBlock.hashCode()
@@ -40,6 +40,12 @@ class Node {
             val vote = Random.nextInt(0, 100)
             node.voteCount = vote
         }
+    }
+
+    fun selectDelegates() {
+        delegates = nodes.sortedBy { it.voteCount }
+            .reversed()
+            .take(3)
     }
 
 }
