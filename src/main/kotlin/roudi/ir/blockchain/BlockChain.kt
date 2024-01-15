@@ -15,4 +15,20 @@ class BlockChain {
         return Block(0)
     }
 
+    fun validateChain(): Boolean {
+        var index = 1
+
+        while(index < blocks.size) {
+            val previousBlockHash = blocks[index].previousBlockHash
+            val previousBlock = blocks[index - 1]
+
+            if(previousBlockHash != previousBlock.hashCode())
+                return false
+
+            index++
+        }
+
+        return true
+    }
+
 }
