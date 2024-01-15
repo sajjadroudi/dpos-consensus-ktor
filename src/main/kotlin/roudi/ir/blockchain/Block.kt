@@ -17,6 +17,8 @@ fun Block.toBlockResponse(index: Int): BlockResponse {
     return BlockResponse(
         index,
         transactions.toTransactionResponse(),
+        creationTimeAsTimestamp,
+        creationTime,
         previousBlockHash
     )
 }
