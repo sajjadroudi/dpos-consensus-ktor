@@ -9,7 +9,7 @@ class Node(
     selfInfo: NodeInfo
 ) {
 
-    private val blockChain = BlockChain()
+    private var blockChain = BlockChain()
 
     private val unverifiedTransactions = mutableListOf<Transaction>()
 
@@ -81,6 +81,21 @@ class Node(
 
     fun getBlockChain() : BlockChain {
         return blockChain
+    }
+
+    fun getNeighbors(): List<NodeInfo> {
+        return nodes.filter { it.address != selfAddress }
+    }
+
+    fun replaceBlockChainIfNeeded(otherBlockChains: List<BlockChain>): Boolean {
+        var didReplace = false
+        otherBlockChains.forEach {  other ->
+            if(other.size > blockChain.size && other.isValid()) {
+                blockChain = other
+                didReplace = true
+            }
+        }
+        return didReplace
     }
 
     // TEMPORARY METHODS TO DEBUG

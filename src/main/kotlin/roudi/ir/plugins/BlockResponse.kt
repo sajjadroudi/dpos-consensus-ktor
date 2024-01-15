@@ -2,6 +2,7 @@ package roudi.ir.plugins
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import roudi.ir.blockchain.Block
 
 @Serializable
 data class BlockResponse(
@@ -11,3 +12,11 @@ data class BlockResponse(
     @SerialName("creationTime") val creationTime: String,
     @SerialName("previousHash") val previousHash: Int
 )
+
+fun List<BlockResponse>.toBlock(): List<Block> {
+    return map { it.toBlock() }
+}
+
+fun BlockResponse.toBlock(): Block {
+    return Block(previousHash, transactions.toTransaction(), creationTimeAsTimestamp)
+}

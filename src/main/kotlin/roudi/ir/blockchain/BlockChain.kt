@@ -2,15 +2,22 @@ package roudi.ir.blockchain
 
 import roudi.ir.plugins.BlockChainResponse
 
-class BlockChain {
+class BlockChain(
+    initialBlocks: List<Block> = emptyList()
+) {
 
-    private val blocks = mutableListOf<Block>(buildGenesisBlock())
+    private val blocks = initialBlocks.ifEmpty {
+        listOf(buildGenesisBlock())
+    }.toMutableList()
 
     val lastBlockIndex: Int
         get() = blocks.lastIndex
 
     val lastBlock: Block
         get() = blocks.last()
+
+    val size: Int
+        get() = blocks.size
 
     fun addBlock(block: Block) {
         blocks += block
@@ -20,7 +27,7 @@ class BlockChain {
         return Block(0)
     }
 
-    fun validateChain(): Boolean {
+    fun isValid(): Boolean {
         var index = 1
 
         while(index < blocks.size) {
