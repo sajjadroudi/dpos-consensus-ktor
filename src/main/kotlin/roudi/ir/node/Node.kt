@@ -38,6 +38,10 @@ class Node(
         nodes += node
     }
 
+    fun addNodes(list: List<NodeInfo>) {
+        nodes += list
+    }
+
     fun doVotingProcess() {
         simulateVoting()
     }
