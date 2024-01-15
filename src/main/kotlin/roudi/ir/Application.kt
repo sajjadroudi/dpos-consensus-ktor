@@ -7,6 +7,7 @@ import roudi.ir.plugins.*
 
 fun main() {
     runServers()
+    waitForever()
 }
 
 private fun runServers() {
@@ -22,6 +23,10 @@ private fun runServer(port: Int) {
         host = Config.HOST,
         module = Application::module
     ).also { it.start(wait = false) }
+}
+
+private fun waitForever() {
+    while(true);
 }
 
 fun Application.module() {
