@@ -3,6 +3,7 @@ package roudi.ir.node
 import roudi.ir.blockchain.Block
 import roudi.ir.blockchain.BlockChain
 import roudi.ir.blockchain.Transaction
+import kotlin.random.Random
 
 class Node {
 
@@ -28,6 +29,17 @@ class Node {
 
     fun addNode(node: NodeInfo) {
         nodes += node
+    }
+
+    fun doVotingProcess() {
+        simulateVoting()
+    }
+
+    private fun simulateVoting() {
+        nodes.forEach { node ->
+            val vote = Random.nextInt(0, 100)
+            node.voteCount = vote
+        }
     }
 
 }
