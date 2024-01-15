@@ -6,8 +6,22 @@ import io.ktor.server.netty.*
 import roudi.ir.plugins.*
 
 fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
-            .start(wait = true)
+    runServers()
+}
+
+private fun runServers() {
+    repeat(Config.NODE_COUNT) {
+        runServer(Config.PRIMARY_NODE_PORT + it)
+    }
+}
+
+private fun runServer(port: Int) {
+    embeddedServer(
+        factory = Netty,
+        port = port,
+        host = Config.HOST,
+        module = Application::module
+    ).also { it.start(wait = false) }
 }
 
 fun Application.module() {
