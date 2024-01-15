@@ -18,5 +18,10 @@ fun Application.configureRouting(node: Node) {
             node.addTransaction(body.toTransaction())
             call.respond(HttpStatusCode.Created, "Successfully created!")
         }
+
+        get("/mine") {
+            node.mine()
+        }
+
     }
 }
