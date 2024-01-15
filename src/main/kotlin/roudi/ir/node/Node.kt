@@ -26,4 +26,8 @@ class Node {
         unverifiedTransactions += transaction
     }
 
+    fun addNode(node: NodeInfo) {
+        nodes += node
+    }
+
 }
