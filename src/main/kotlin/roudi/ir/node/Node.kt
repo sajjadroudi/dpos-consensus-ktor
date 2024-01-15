@@ -22,4 +22,8 @@ class Node {
         blockChain.addBlock(block)
     }
 
+    fun addTransaction(transaction: Transaction) {
+        unverifiedTransactions += transaction
+    }
+
 }
