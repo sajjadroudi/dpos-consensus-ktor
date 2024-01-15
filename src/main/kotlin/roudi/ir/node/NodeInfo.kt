@@ -7,5 +7,6 @@ data class NodeInfo(
 
     var voteCount = 0
 
-    val power = stake * voteCount
+    val power: Int
+        get() = voteCount * stake
 }

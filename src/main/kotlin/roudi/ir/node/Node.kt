@@ -5,22 +5,29 @@ import roudi.ir.blockchain.BlockChain
 import roudi.ir.blockchain.Transaction
 import kotlin.random.Random
 
-class Node {
+class Node(
+    selfInfo: NodeInfo
+) {
 
     private val blockChain = BlockChain()
 
     private val unverifiedTransactions = mutableListOf<Transaction>()
 
     private val nodes = mutableSetOf<NodeInfo>()
+        .also { it.add(selfInfo) }
 
     private var delegates = listOf<NodeInfo>()
 
-    fun createNewBlock() {
+    private val selfAddress = selfInfo.address
+
+    private val self: NodeInfo
+        get() = nodes.find { it.address == selfAddress }!!
+
+    private fun createNewBlock(): Block {
         val previousBlockHash = blockChain.lastBlock.hashCode()
         val block = Block(previousBlockHash, unverifiedTransactions)
         unverifiedTransactions.clear()
-
-        blockChain.addBlock(block)
+        return block
     }
 
     fun addTransaction(transaction: Transaction) {
@@ -46,6 +53,17 @@ class Node {
         delegates = nodes.sortedBy { it.voteCount }
             .reversed()
             .take(3)
+    }
+
+    fun mine() {
+        if(isDelegate()) {
+            val block = createNewBlock()
+            blockChain.addBlock(block)
+        }
+    }
+
+    private fun isDelegate(): Boolean {
+        return delegates.find { it.address == selfAddress } != null
     }
 
 }
