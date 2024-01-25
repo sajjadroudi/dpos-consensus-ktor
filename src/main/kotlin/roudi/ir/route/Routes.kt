@@ -14,6 +14,7 @@ import kotlinx.coroutines.awaitAll
 import roudi.ir.blockchain.toBlockResponse
 import roudi.ir.node.Node
 import roudi.ir.node.toDelegateResponse
+import roudi.ir.node.toDelegatesRequest
 import roudi.ir.route.request.RequestVoteRequest
 import roudi.ir.route.request.TransactionRequest
 import roudi.ir.route.request.toTransaction
@@ -94,6 +95,12 @@ fun Application.handleRoute(node: Node) {
                         .vote
                 }
             )
+            node.getNeighbors()
+                .forEach {
+                    client.post("${it.address}/delegate/sync") {
+                        setBody(delegates.toDelegatesRequest())
+                    }
+                }
             call.respond(delegates.toDelegateResponse())
         }
 

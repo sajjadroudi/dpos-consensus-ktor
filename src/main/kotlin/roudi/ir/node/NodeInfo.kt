@@ -39,7 +39,7 @@ fun List<NodeInfo>.toDelegatesRequest() : DelegatesRequest {
     return DelegatesRequest(map { it.toDelegateRequest() })
 }
 
-fun NodeInfo.toDelegateRequest() : DelegateRequest {
+private fun NodeInfo.toDelegateRequest() : DelegateRequest {
     return DelegateRequest(
         address = address,
         coin = coin,
