@@ -99,6 +99,14 @@ fun Application.handleRoute(node: Node) {
         }
 
         get("/delegate/select") {
+            if (!node.isPrimary()) {
+                call.respondText(
+                    status = HttpStatusCode.InternalServerError,
+                    text = "This endpoint only works for the primary node because the primary node is responsible to conduct and manage voting process."
+                )
+                return@get
+            }
+
             val client = HttpClient(CIO)
             val delegates = node.selectDelegates(
                 specifyStakeApiCall = { targetNodeUrl ->
