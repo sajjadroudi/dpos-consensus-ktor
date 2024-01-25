@@ -1,4 +1,4 @@
-package roudi.ir.route.response
+package roudi.ir.route.request
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

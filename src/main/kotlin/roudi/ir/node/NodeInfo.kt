@@ -1,8 +1,8 @@
 package roudi.ir.node
 
-import roudi.ir.route.response.DelegateRequest
+import roudi.ir.route.request.DelegateRequest
 import roudi.ir.route.response.DelegateResponse
-import roudi.ir.route.response.DelegatesRequest
+import roudi.ir.route.request.DelegatesRequest
 
 data class NodeInfo(
     val address: String,
