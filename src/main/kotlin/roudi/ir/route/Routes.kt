@@ -15,11 +15,7 @@ import roudi.ir.blockchain.toBlockResponse
 import roudi.ir.node.Node
 import roudi.ir.node.toDelegateResponse
 import roudi.ir.node.toDelegatesRequest
-import roudi.ir.route.request.DelegatesRequest
-import roudi.ir.route.request.RequestVoteRequest
-import roudi.ir.route.request.TransactionRequest
-import roudi.ir.route.request.toNodeInfos
-import roudi.ir.route.response.toTransaction
+import roudi.ir.route.request.*
 import roudi.ir.route.response.*
 
 fun Application.handleRoute(node: Node) {
