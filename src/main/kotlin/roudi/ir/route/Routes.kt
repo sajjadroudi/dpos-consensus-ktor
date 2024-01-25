@@ -63,6 +63,19 @@ fun Application.handleRoute(node: Node) {
             }
         }
 
+        post("/block/validate") {
+            if(node.isDelegate()) {
+                val block = call.receive<BlockRequest>().toBlock()
+                val isValid = node.validateBlock(block)
+                call.respond(isValid)
+            } else {
+                call.respondText(
+                    status = HttpStatusCode.InternalServerError,
+                    text = "The current node is not a delegate node so it can not validate the block."
+                )
+            }
+        }
+
         get("/chain") {
             val chain = node.getBlockChain().toBlockChainResponse()
             call.respond(chain)

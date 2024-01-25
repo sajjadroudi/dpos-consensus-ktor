@@ -159,14 +159,17 @@ class Node(
         return delegates
     }
 
-    // TEMPORARY METHODS TO DEBUG
-
     fun getUnverifiedTransactions() : List<Transaction> {
         return unverifiedTransactions
     }
 
     fun getNodes() : List<NodeInfo> {
         return nodes.toList()
+    }
+
+    fun validateBlock(block: Block): Boolean {
+        val hashOfLastBlock = blockChain.lastBlock.hashCode()
+        return block.previousBlockHash == hashOfLastBlock
     }
 
 }

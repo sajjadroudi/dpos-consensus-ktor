@@ -33,7 +33,7 @@ fun Block.toBlockResponse(index: Int): BlockResponse {
 fun Block.toBlockRequest() : BlockRequest {
     return BlockRequest(
         transactions.toTransactionRequest(),
-        creationTime,
+        creationTimeAsTimestamp,
         previousBlockHash
     )
 }

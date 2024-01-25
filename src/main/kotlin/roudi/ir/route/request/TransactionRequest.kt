@@ -11,6 +11,10 @@ data class TransactionRequest(
     @SerialName("amount") val amount: Int
 )
 
+fun List<TransactionRequest>.toTransaction(): List<Transaction> {
+    return map { it.toTransaction() }
+}
+
 fun TransactionRequest.toTransaction() = Transaction(
     sender,
     receiver,
