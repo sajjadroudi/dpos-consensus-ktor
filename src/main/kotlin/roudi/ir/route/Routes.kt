@@ -17,10 +17,7 @@ import roudi.ir.node.toDelegateResponse
 import roudi.ir.route.request.RequestVoteRequest
 import roudi.ir.route.request.TransactionRequest
 import roudi.ir.route.request.toTransaction
-import roudi.ir.route.response.BlockChainResponse
-import roudi.ir.route.response.StakeAmountResponse
-import roudi.ir.route.response.VoteResponse
-import roudi.ir.route.response.toBlockChain
+import roudi.ir.route.response.*
 
 fun Application.handleRoute(node: Node) {
     routing {
@@ -98,6 +95,12 @@ fun Application.handleRoute(node: Node) {
                 }
             )
             call.respond(delegates.toDelegateResponse())
+        }
+
+        post("/delegate/sync") {
+            val request = call.receive<DelegatesRequest>()
+            node.setDelegates(request.toNodeInfos())
+            call.respondText("Successfully synced")
         }
 
     }

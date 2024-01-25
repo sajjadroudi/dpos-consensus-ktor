@@ -139,6 +139,13 @@ class Node(
         return didReplace
     }
 
+    fun setDelegates(delegates: List<NodeInfo>) {
+        delegates.forEach { delegate ->
+            nodes.removeIf { it.address == delegate.address }
+        }
+        nodes += delegates
+    }
+
     // TEMPORARY METHODS TO DEBUG
 
     fun getUnverifiedTransactions() : List<Transaction> {
