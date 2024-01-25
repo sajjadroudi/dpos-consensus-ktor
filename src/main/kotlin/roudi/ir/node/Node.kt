@@ -116,8 +116,12 @@ class Node(
         return block
     }
 
-    private fun isDelegate(): Boolean {
+    fun isDelegate(): Boolean {
         return delegates.find { it.address == selfAddress } != null
+    }
+
+    fun isPrimary() : Boolean {
+        return selfAddress == Config.PRIMARY_NODE_ADDRESS
     }
 
     fun getBlockChain() : BlockChain {
