@@ -17,7 +17,7 @@ private fun runServers() {
     val nodeInfos = (0 until Config.NODE_COUNT).map {
         val port = Config.PRIMARY_NODE_PORT + it
         val address = "http://${Config.HOST}:$port"
-        val coin = Random.nextInt(Config.MIN_COIN, Config.MAX_COIN)
+        val coin = (Config.MIN_COIN..Config.MAX_COIN).random()
         NodeInfo(address, coin)
     }
 

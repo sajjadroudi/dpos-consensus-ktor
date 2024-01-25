@@ -46,17 +46,6 @@ class Node(
         nodes += list
     }
 
-    fun doVotingProcess() {
-        simulateVoting()
-    }
-
-    private fun simulateVoting() {
-        nodes.forEach { node ->
-            val vote = Random.nextInt(0, 100)
-            node.voteCount = vote
-        }
-    }
-
     suspend fun selectDelegates(
         specifyStakeApiCall: suspend (url: String) -> Int,
         collectVoteApiCall: suspend (targetUrl: String, nodeToVoteUrl: String) -> Int
@@ -75,7 +64,7 @@ class Node(
     }
 
     fun specifyStakeAmount(): Int {
-        val stake = Random.nextInt(0, self.coin)
+        val stake = (0..self.coin).random()
         self.stake = stake
         return stake
     }
