@@ -24,7 +24,7 @@ class BlockChain(
     }
 
     private fun buildGenesisBlock(): Block {
-        return Block(0)
+        return Block(0, emptyList(), 0)
     }
 
     fun isValid(): Boolean {
