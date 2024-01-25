@@ -86,6 +86,11 @@ fun Application.handleRoute(node: Node) {
             call.respondText(message)
         }
 
+        get("/node") {
+            val response = node.getNodes().toDelegateResponse()
+            call.respond(response)
+        }
+
         get("/node/stake") {
             if(node.isPrimary()) {
                 call.respondText(
