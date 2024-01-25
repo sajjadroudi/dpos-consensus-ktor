@@ -128,7 +128,7 @@ fun Application.handleRoute(node: Node) {
             val client = KtorClientBuilder.build()
             val delegates = node.selectDelegates(
                 specifyStakeApiCall = { targetNodeUrl ->
-                    client.get("$targetNodeUrl/node/stage")
+                    client.get("$targetNodeUrl/node/stake")
                         .body<StakeAmountResponse>()
                         .stake
                 },
