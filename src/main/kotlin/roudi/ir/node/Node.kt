@@ -45,7 +45,7 @@ class Node(
         nodes += list
     }
 
-    fun addBlock(block: Block) {
+    fun addBlockToBlockChain(block: Block) {
         blockChain.addBlock(block)
     }
 
@@ -118,7 +118,6 @@ class Node(
             throw IllegalStateException("There is no transaction to include in block!")
 
         val block = createNewBlock()
-        blockChain.addBlock(block)
 
         return block
     }

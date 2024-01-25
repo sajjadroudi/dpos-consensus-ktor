@@ -1,8 +1,6 @@
 package roudi.ir.route
 
-import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.engine.cio.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -11,6 +9,8 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import roudi.ir.Config
+import roudi.ir.blockchain.toBlockRequest
 import roudi.ir.blockchain.toBlockResponse
 import roudi.ir.node.Node
 import roudi.ir.node.toDelegateResponse
@@ -54,6 +54,37 @@ fun Application.handleRoute(node: Node) {
 
             try {
                 val block = node.mine()
+
+                val blockRequest = block.toBlockRequest()
+                val httpClient = KtorClientBuilder.build()
+
+                val delegatesWhichApprovedCount = node.getDelegates()
+                    .map {
+                        httpClient
+                            .post("${it.address}/block/validate") {
+                                setBody(blockRequest)
+                            }
+                            .body<Boolean>()
+                    }
+                    .count { it }
+
+                val percent = delegatesWhichApprovedCount * 100 / node.getDelegates().size
+
+                val blockIsInvalid = percent < Config.DELEGATE_PERCENT_TO_VALIDATE_BLOCK
+
+                if (blockIsInvalid) {
+                    call.respond("Block considered as invalid.")
+                    return@get
+                }
+
+                node.addBlockToBlockChain(block)
+
+                node.getNeighbors().forEach {
+                    httpClient.post("${it.address}/block") {
+                        setBody(blockRequest)
+                    }
+                }
+
                 val index = node.lastBlockChainIndex
                 val response = block.toBlockResponse(index)
                 call.respond(response)
@@ -65,7 +96,7 @@ fun Application.handleRoute(node: Node) {
 
         post("/block") {
             val block = call.receive<BlockRequest>().toBlock()
-            node.addBlock(block)
+            node.addBlockToBlockChain(block)
         }
 
         post("/block/validate") {
