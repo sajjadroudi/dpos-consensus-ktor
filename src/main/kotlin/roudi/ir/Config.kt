@@ -8,7 +8,7 @@ object Config {
 
     const val NODE_COUNT = 5
 
-    const val MIN_STAKE = 20
-    const val MAX_STAKE = 100
+    const val MIN_COIN = 20
+    const val MAX_COIN = 100
 
 }

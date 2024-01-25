@@ -6,7 +6,6 @@ import io.ktor.server.netty.*
 import roudi.ir.node.Node
 import roudi.ir.node.NodeInfo
 import roudi.ir.plugins.*
-import roudi.ir.route.handleRoute
 import kotlin.random.Random
 
 fun main() {
@@ -18,8 +17,8 @@ private fun runServers() {
     val nodeInfos = (0 until Config.NODE_COUNT).map {
         val port = Config.PRIMARY_NODE_PORT + it
         val address = "http://${Config.HOST}:$port"
-        val stake = Random.nextInt(Config.MIN_STAKE, Config.MAX_STAKE)
-        NodeInfo(address, stake)
+        val coin = Random.nextInt(Config.MIN_COIN, Config.MAX_COIN)
+        NodeInfo(address, coin)
     }
 
     nodeInfos.forEachIndexed { index, node ->
