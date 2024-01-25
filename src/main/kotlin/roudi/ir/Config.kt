@@ -14,4 +14,6 @@ object Config {
     const val MIN_VOTE = 0
     const val MAX_VOTE = 100
 
+    const val DELEGATE_COUNT = 3
+
 }
