@@ -32,9 +32,9 @@ fun Application.handleRoute(node: Node) {
 
         get("/mine") {
             if(!node.isDelegate()) {
-                call.respond(
+                call.respondText(
                     status = HttpStatusCode.InternalServerError,
-                    "This node is not delegate so it can not mine."
+                    text = "This node is not delegate so it can not mine."
                 )
                 return@get
             }
@@ -74,8 +74,15 @@ fun Application.handleRoute(node: Node) {
         }
 
         get("/node/stake") {
-            val stake = node.specifyStakeAmount()
-            call.respond(StakeAmountResponse(stake))
+            if(node.isPrimary()) {
+                call.respondText(
+                    status = HttpStatusCode.InternalServerError,
+                    text = "The current node is primary node and primary node does not participate in voting."
+                )
+            } else {
+                val stake = node.specifyStakeAmount()
+                call.respond(StakeAmountResponse(stake))
+            }
         }
 
         post("/node/requestVote") {
