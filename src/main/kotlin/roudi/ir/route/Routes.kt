@@ -31,6 +31,14 @@ fun Application.handleRoute(node: Node) {
         }
 
         get("/mine") {
+            if(!node.isDelegate()) {
+                call.respond(
+                    status = HttpStatusCode.InternalServerError,
+                    "This node is not delegate so it can not mine."
+                )
+                return@get
+            }
+
             try {
                 val block = node.mine()
                 val index = node.lastBlockChainIndex
