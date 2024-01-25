@@ -8,5 +8,6 @@ data class DelegateResponse(
     @SerialName("address") val address: String,
     @SerialName("coin") val coin: Int,
     @SerialName("stake") val stake: Int,
+    @SerialName("voteCount") val voteCount: Int,
     @SerialName("power") val power: Int
 )

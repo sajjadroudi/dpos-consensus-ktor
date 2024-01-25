@@ -4,7 +4,6 @@ import roudi.ir.Config
 import roudi.ir.blockchain.Block
 import roudi.ir.blockchain.BlockChain
 import roudi.ir.blockchain.Transaction
-import kotlin.random.Random
 
 class Node(
     selfInfo: NodeInfo

@@ -21,10 +21,11 @@ data class NodeInfo(
 
 fun NodeInfo.toDelegateResponse(): DelegateResponse {
     return DelegateResponse(
-        address,
-        coin,
-        stake,
-        voteCount
+        address = address,
+        coin = coin,
+        stake = stake,
+        voteCount = voteCount,
+        power = power
     )
 }
 
