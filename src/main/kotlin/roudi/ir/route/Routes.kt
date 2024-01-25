@@ -37,6 +37,11 @@ fun Application.handleRoute(node: Node) {
             }
         }
 
+        get("/transaction") {
+            val transactions = node.getUnverifiedTransactions().toTransactionsResponse()
+            call.respond(transactions)
+        }
+
         get("/mine") {
             if(!node.isDelegate()) {
                 call.respondText(
