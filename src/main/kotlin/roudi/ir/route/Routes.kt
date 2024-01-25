@@ -77,7 +77,7 @@ fun Application.handleRoute(node: Node) {
             if(node.isPrimary()) {
                 call.respondText(
                     status = HttpStatusCode.InternalServerError,
-                    text = "The current node is primary node and primary node does not participate in voting."
+                    text = "The current node is primary node and the primary node does not participate in voting."
                 )
             } else {
                 val stake = node.specifyStakeAmount()
@@ -86,9 +86,16 @@ fun Application.handleRoute(node: Node) {
         }
 
         post("/node/requestVote") {
-            val request = call.receive<RequestVoteRequest>()
-            val vote = node.vote(request.nodeAddressToVote)
-            call.respond(VoteResponse(vote))
+            if (node.isPrimary()) {
+                call.respondText(
+                    status = HttpStatusCode.InternalServerError,
+                    text = "The current node is primary node and the primary node does not participate in voting."
+                )
+            } else {
+                val request = call.receive<RequestVoteRequest>()
+                val vote = node.vote(request.nodeAddressToVote)
+                call.respond(VoteResponse(vote))
+            }
         }
 
         get("/delegate/select") {
