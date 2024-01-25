@@ -13,10 +13,12 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import roudi.ir.blockchain.toBlockResponse
 import roudi.ir.node.Node
+import roudi.ir.route.request.RequestVoteRequest
 import roudi.ir.route.request.TransactionRequest
 import roudi.ir.route.request.toTransaction
 import roudi.ir.route.response.BlockChainResponse
 import roudi.ir.route.response.StakeAmountResponse
+import roudi.ir.route.response.VoteResponse
 import roudi.ir.route.response.toBlockChain
 
 fun Application.handleRoute(node: Node) {
@@ -69,6 +71,12 @@ fun Application.handleRoute(node: Node) {
         get("/node/stake") {
             val stake = node.specifyStakeAmount()
             call.respond(StakeAmountResponse(stake))
+        }
+
+        post("/node/requestVote") {
+            val request = call.receive<RequestVoteRequest>()
+            val vote = node.vote(request.nodeAddressToVote)
+            call.respond(VoteResponse(vote))
         }
 
     }

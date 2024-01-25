@@ -1,5 +1,6 @@
 package roudi.ir.node
 
+import roudi.ir.Config
 import roudi.ir.blockchain.Block
 import roudi.ir.blockchain.BlockChain
 import roudi.ir.blockchain.Transaction
@@ -73,6 +74,10 @@ class Node(
         val stake = Random.nextInt(0, self.coin)
         self.stake = stake
         return stake
+    }
+
+    fun vote(address: String): Int {
+        return Random.nextInt(Config.MIN_VOTE, Config.MAX_VOTE)
     }
 
     fun mine(): Block {

@@ -11,4 +11,7 @@ object Config {
     const val MIN_COIN = 20
     const val MAX_COIN = 100
 
+    const val MIN_VOTE = 0
+    const val MAX_VOTE = 100
+
 }
