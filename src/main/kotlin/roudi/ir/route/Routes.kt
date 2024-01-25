@@ -25,9 +25,16 @@ fun Application.handleRoute(node: Node) {
         }
 
         post("/transaction") {
-            val body = call.receive<TransactionRequest>()
-            node.addTransaction(body.toTransaction())
-            call.respond(HttpStatusCode.Created, "Successfully created!")
+            if(node.isPrimary()) {
+                call.respondText(
+                    status = HttpStatusCode.InternalServerError,
+                    text = "The current node is the primary node so it's not going to mine anything."
+                )
+            } else {
+                val body = call.receive<TransactionRequest>()
+                node.addTransaction(body.toTransaction())
+                call.respond(HttpStatusCode.Created, "Successfully created!")
+            }
         }
 
         get("/mine") {
