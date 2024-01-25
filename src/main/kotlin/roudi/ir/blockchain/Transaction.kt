@@ -1,5 +1,6 @@
 package roudi.ir.blockchain
 
+import roudi.ir.route.request.TransactionRequest
 import roudi.ir.route.response.TransactionResponse
 
 data class Transaction(
@@ -14,4 +15,8 @@ fun List<Transaction>.toTransactionResponse(): List<TransactionResponse> {
 
 fun Transaction.toTransactionResponse(): TransactionResponse {
     return TransactionResponse(sender, receiver, amount)
+}
+
+fun Transaction.toTransactionRequest() : TransactionRequest {
+    return TransactionRequest(sender, receiver, amount)
 }
