@@ -111,6 +111,11 @@ fun Application.handleRoute(node: Node) {
             }
         }
 
+        get("/delegate") {
+            val delegates = node.getDelegates().toDelegateResponse()
+            call.respond(delegates)
+        }
+
         get("/delegate/select") {
             if (!node.isPrimary()) {
                 call.respondText(

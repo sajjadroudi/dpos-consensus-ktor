@@ -150,6 +150,10 @@ class Node(
         nodes += delegates
     }
 
+    fun getDelegates() : List<NodeInfo> {
+        return delegates
+    }
+
     // TEMPORARY METHODS TO DEBUG
 
     fun getUnverifiedTransactions() : List<Transaction> {
