@@ -17,6 +17,7 @@ import roudi.ir.node.toDelegateResponse
 import roudi.ir.node.toDelegatesRequest
 import roudi.ir.route.request.*
 import roudi.ir.route.response.*
+import roudi.ir.util.KtorClientBuilder
 
 fun Application.handleRoute(node: Node) {
     routing {
@@ -68,7 +69,7 @@ fun Application.handleRoute(node: Node) {
         }
 
         get("/chain/resolve") {
-            val client = HttpClient(CIO)
+            val client = KtorClientBuilder.build()
             val otherBlockChains = node.getNeighbors()
                 .map {
                     async { client.get("${it.address}/chain") }
@@ -119,7 +120,7 @@ fun Application.handleRoute(node: Node) {
                 return@get
             }
 
-            val client = HttpClient(CIO)
+            val client = KtorClientBuilder.build()
             val delegates = node.selectDelegates(
                 specifyStakeApiCall = { targetNodeUrl ->
                     client.get("$targetNodeUrl/node/stage")
