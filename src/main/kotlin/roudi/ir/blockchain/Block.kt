@@ -1,6 +1,6 @@
 package roudi.ir.blockchain
 
-import roudi.ir.plugins.BlockResponse
+import roudi.ir.route.response.BlockResponse
 import roudi.ir.util.DateTimeUtil
 
 data class Block(

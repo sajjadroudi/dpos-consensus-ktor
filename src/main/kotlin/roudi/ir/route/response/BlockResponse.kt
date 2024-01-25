@@ -1,8 +1,10 @@
-package roudi.ir.plugins
+package roudi.ir.route.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import roudi.ir.blockchain.Block
+import roudi.ir.route.request.TransactionResponse
+import roudi.ir.route.request.toTransaction
 
 @Serializable
 data class BlockResponse(

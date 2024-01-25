@@ -6,6 +6,7 @@ import io.ktor.server.netty.*
 import roudi.ir.node.Node
 import roudi.ir.node.NodeInfo
 import roudi.ir.plugins.*
+import roudi.ir.route.handleRoute
 import kotlin.random.Random
 
 fun main() {

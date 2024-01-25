@@ -1,6 +1,6 @@
 package roudi.ir.blockchain
 
-import roudi.ir.plugins.TransactionResponse
+import roudi.ir.route.request.TransactionResponse
 
 data class Transaction(
     val sender: String,

@@ -1,6 +1,6 @@
 package roudi.ir.blockchain
 
-import roudi.ir.plugins.BlockChainResponse
+import roudi.ir.route.response.BlockChainResponse
 
 class BlockChain(
     initialBlocks: List<Block> = emptyList()
