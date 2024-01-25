@@ -63,6 +63,11 @@ fun Application.handleRoute(node: Node) {
             }
         }
 
+        post("/block") {
+            val block = call.receive<BlockRequest>().toBlock()
+            node.addBlock(block)
+        }
+
         post("/block/validate") {
             if(node.isDelegate()) {
                 val block = call.receive<BlockRequest>().toBlock()

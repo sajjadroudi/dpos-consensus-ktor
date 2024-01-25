@@ -45,6 +45,10 @@ class Node(
         nodes += list
     }
 
+    fun addBlock(block: Block) {
+        blockChain.addBlock(block)
+    }
+
     suspend fun selectDelegates(
         specifyStakeApiCall: suspend (url: String) -> Int,
         collectVoteApiCall: suspend (targetUrl: String, nodeToVoteUrl: String) -> Int
