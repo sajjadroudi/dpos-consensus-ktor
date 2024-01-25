@@ -1,6 +1,8 @@
 package roudi.ir.node
 
+import roudi.ir.route.response.DelegateRequest
 import roudi.ir.route.response.DelegateResponse
+import roudi.ir.route.response.DelegatesRequest
 
 data class NodeInfo(
     val address: String,
@@ -31,4 +33,17 @@ fun NodeInfo.toDelegateResponse(): DelegateResponse {
 
 fun List<NodeInfo>.toDelegateResponse(): List<DelegateResponse> {
     return map { it.toDelegateResponse() }
+}
+
+fun List<NodeInfo>.toDelegatesRequest() : DelegatesRequest {
+    return DelegatesRequest(map { it.toDelegateRequest() })
+}
+
+fun NodeInfo.toDelegateRequest() : DelegateRequest {
+    return DelegateRequest(
+        address = address,
+        coin = coin,
+        stake = stake,
+        vote = voteCount
+    )
 }
