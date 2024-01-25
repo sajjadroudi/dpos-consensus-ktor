@@ -56,7 +56,9 @@ class Node(
     }
 
     private suspend fun specifyNodeStakes(apiCall: suspend (url: String) -> Int) {
-        nodes.associateWith { apiCall(it.address) }
+        nodes
+            .filter { it.address != Config.PRIMARY_NODE_ADDRESS }
+            .associateWith { apiCall(it.address) }
             .forEach { (node, stake) ->
                 node.stake = stake
             }
@@ -72,6 +74,7 @@ class Node(
         collectVoteApiCall: suspend (targetUrl: String, nodeToVoteUrl: String) -> Int
     ) {
         nodes.filter { it.stake > 0 }
+            .filter { it.address != Config.PRIMARY_NODE_ADDRESS }
             .associateWith { node ->
                 collectVote(node.address) { nodeAddressToVote ->
                     collectVoteApiCall(node.address, nodeAddressToVote)
