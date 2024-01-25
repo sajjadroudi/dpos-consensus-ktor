@@ -17,6 +17,10 @@ fun Transaction.toTransactionResponse(): TransactionResponse {
     return TransactionResponse(sender, receiver, amount)
 }
 
+fun List<Transaction>.toTransactionRequest(): List<TransactionRequest> {
+    return map { it.toTransactionRequest() }
+}
+
 fun Transaction.toTransactionRequest() : TransactionRequest {
     return TransactionRequest(sender, receiver, amount)
 }

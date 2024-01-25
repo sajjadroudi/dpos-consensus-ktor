@@ -1,5 +1,6 @@
 package roudi.ir.blockchain
 
+import roudi.ir.route.request.BlockRequest
 import roudi.ir.route.response.BlockResponse
 import roudi.ir.util.DateTimeUtil
 
@@ -24,6 +25,14 @@ fun Block.toBlockResponse(index: Int): BlockResponse {
         index,
         transactions.toTransactionResponse(),
         creationTimeAsTimestamp,
+        creationTime,
+        previousBlockHash
+    )
+}
+
+fun Block.toBlockRequest() : BlockRequest {
+    return BlockRequest(
+        transactions.toTransactionRequest(),
         creationTime,
         previousBlockHash
     )
