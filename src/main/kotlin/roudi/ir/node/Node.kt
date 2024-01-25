@@ -147,6 +147,8 @@ class Node(
     }
 
     fun setDelegates(delegates: List<NodeInfo>) {
+        this.delegates = delegates
+
         delegates.forEach { delegate ->
             nodes.removeIf { it.address == delegate.address }
         }
