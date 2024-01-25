@@ -107,7 +107,7 @@ class Node(
     }
 
     fun vote(address: String): Int {
-        return (Config.MIN_VOTE..Config.MAX_VOTE).random()
+        return (0..1).random() * self.coin
     }
 
     fun mine(): Block {
