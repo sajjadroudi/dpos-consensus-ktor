@@ -16,6 +16,7 @@ import roudi.ir.node.Node
 import roudi.ir.route.request.TransactionRequest
 import roudi.ir.route.request.toTransaction
 import roudi.ir.route.response.BlockChainResponse
+import roudi.ir.route.response.StakeAmountResponse
 import roudi.ir.route.response.toBlockChain
 
 fun Application.handleRoute(node: Node) {
@@ -63,6 +64,11 @@ fun Application.handleRoute(node: Node) {
             else
                 "There is no longer blockchain to replace."
             call.respondText(message)
+        }
+
+        get("/node/stake") {
+            val stake = node.specifyStakeAmount()
+            call.respond(StakeAmountResponse(stake))
         }
 
     }

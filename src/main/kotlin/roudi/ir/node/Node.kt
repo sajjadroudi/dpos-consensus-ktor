@@ -57,9 +57,22 @@ class Node(
     }
 
     fun selectDelegates() {
-        delegates = nodes.sortedBy { it.voteCount }
-            .reversed()
-            .take(3)
+        // specify stake
+        // collect votes
+        // select delegates
+    }
+
+    suspend fun specifyNodeStakes(apiCall: suspend (url: String) -> Int) {
+        nodes.associateWith {  apiCall(it.address) }
+            .forEach { (node, stake) ->
+                node.stake = stake
+            }
+    }
+
+    fun specifyStakeAmount(): Int {
+        val stake = Random.nextInt(0, self.coin)
+        self.stake = stake
+        return stake
     }
 
     fun mine(): Block {

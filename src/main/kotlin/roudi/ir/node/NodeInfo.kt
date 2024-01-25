@@ -2,7 +2,7 @@ package roudi.ir.node
 
 data class NodeInfo(
     val address: String,
-    private val coin: Int
+    val coin: Int
 ) {
 
     var voteCount = 0
