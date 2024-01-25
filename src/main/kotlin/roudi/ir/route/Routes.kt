@@ -13,6 +13,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import roudi.ir.blockchain.toBlockResponse
 import roudi.ir.node.Node
+import roudi.ir.node.toDelegateResponse
 import roudi.ir.route.request.RequestVoteRequest
 import roudi.ir.route.request.TransactionRequest
 import roudi.ir.route.request.toTransaction
@@ -77,6 +78,26 @@ fun Application.handleRoute(node: Node) {
             val request = call.receive<RequestVoteRequest>()
             val vote = node.vote(request.nodeAddressToVote)
             call.respond(VoteResponse(vote))
+        }
+
+        get("/delegate/select") {
+            val client = HttpClient(CIO)
+            val delegates = node.selectDelegates(
+                specifyStakeApiCall = { targetNodeUrl ->
+                    client.get("$targetNodeUrl/node/stage")
+                        .body<StakeAmountResponse>()
+                        .stake
+                },
+                collectVoteApiCall = { targetUrl, nodeToVoteUrl ->
+                    client
+                        .post("$targetUrl/node/requestVote") {
+                            setBody(RequestVoteRequest(nodeToVoteUrl))
+                        }
+                        .body<VoteResponse>()
+                        .vote
+                }
+            )
+            call.respond(delegates.toDelegateResponse())
         }
 
     }

@@ -57,14 +57,18 @@ class Node(
         }
     }
 
-    fun selectDelegates() {
-        // specify stake
-        // collect votes
-        // select delegates
+    suspend fun selectDelegates(
+        specifyStakeApiCall: suspend (url: String) -> Int,
+        collectVoteApiCall: suspend (targetUrl: String, nodeToVoteUrl: String) -> Int
+    ): List<NodeInfo> {
+        specifyNodeStakes(specifyStakeApiCall)
+        collectVotes(collectVoteApiCall)
+        selectDelegates()
+        return delegates
     }
 
-    suspend fun specifyNodeStakes(apiCall: suspend (url: String) -> Int) {
-        nodes.associateWith {  apiCall(it.address) }
+    private suspend fun specifyNodeStakes(apiCall: suspend (url: String) -> Int) {
+        nodes.associateWith { apiCall(it.address) }
             .forEach { (node, stake) ->
                 node.stake = stake
             }
@@ -76,8 +80,39 @@ class Node(
         return stake
     }
 
+    private suspend fun collectVotes(
+        collectVoteApiCall: suspend (targetUrl: String, nodeToVoteUrl: String) -> Int
+    ) {
+        nodes.filter { it.stake > 0 }
+            .associateWith { node ->
+                collectVote(node.address) { nodeAddressToVote ->
+                    collectVoteApiCall(node.address, nodeAddressToVote)
+                }
+            }
+            .forEach { node, voteCount ->
+                node.voteCount = voteCount
+            }
+    }
+
+    private suspend fun collectVote(
+        nodeToVoteUrl: String,
+        collectVoteApiCall: suspend (targetUrl: String) -> Int
+    ): Int {
+        return nodes.filter { it.stake > 0 }
+            .map { it.address }
+            .filter { it != nodeToVoteUrl }
+            .map { collectVoteApiCall(it) }
+            .sum()
+    }
+
+    private fun selectDelegates() {
+        delegates = nodes.sortedBy { it.power }
+            .reversed()
+            .take(Config.DELEGATE_COUNT)
+    }
+
     fun vote(address: String): Int {
-        return Random.nextInt(Config.MIN_VOTE, Config.MAX_VOTE)
+        return (Config.MIN_VOTE..Config.MAX_VOTE).random()
     }
 
     fun mine(): Block {
