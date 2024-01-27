@@ -28,7 +28,7 @@ class Node(
 
     private fun createNewBlock(): Block {
         val previousBlockHash = blockChain.lastBlock.hashCode()
-        val block = Block(previousBlockHash, unverifiedTransactions)
+        val block = Block(previousBlockHash, unverifiedTransactions.toList())
         unverifiedTransactions.clear()
         return block
     }
